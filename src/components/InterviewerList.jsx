@@ -2,7 +2,7 @@ import React from 'react'
 
 import InterviewerListItem from "components/InterviewerListItem.jsx"
 
-import "./interviewers.scss";
+import "./Interviewers.scss";
 
 export default function InterviewerList(props) {
 
