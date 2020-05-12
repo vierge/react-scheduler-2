@@ -11,7 +11,7 @@ export default function DayListItem(props) {
     "day-list__item--full": spots === 0 
   }];
   const formatSpots = (val) => {
-    return `${val === 0 ? `no` : val} spot${val != 1 ? `s` : ``} remaining`;
+    return `${val === 0 ? `no` : val} spot${val !== 1 ? `s` : ``} remaining`;
   }
 
   return (
