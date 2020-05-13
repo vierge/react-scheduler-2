@@ -5,14 +5,22 @@ import React, { useState } from 'react'
 import "./styles.scss"
 
 // component import
+import Header from "./Header"
+import Show from "./Show"
+import Form from "./Form"
+import Empty from "./Empty"
 
 
 export default function Appointment(props) {
 
+  const { time, interview } = props;
 
   return (
     <article className="appointment">
-
+      <header>{time}</header>
+      {interview ?
+        <Show student={interview.student} interviewer={interview.interviewer.name} /> :
+        <Empty />}
     </article>
   )
 }
