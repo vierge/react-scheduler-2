@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import "components/Application.scss";
 import DayList from "components/DayList"
 import InterviewerList from "components/InterviewerList"
+import Appointment from "components/Appointment"
 
 const days = [
   {
@@ -30,10 +31,38 @@ const interviewers = [
   { id: 5, name: "Sven Jones", avatar: "https://i.imgur.com/twYrpay.jpg" }
 ];
 
+const appointments = [
+  {
+    id: 1,
+    time: "12pm",
+  },
+  {
+    id: 2,
+    time: "1pm",
+    interview: {
+      student: "Lydia Miller-Jones",
+      interviewer: {
+        id: 1,
+        name: "Sylvia Palmer",
+        avatar: "https://i.imgur.com/LpaY82x.png",
+      }
+    }
+  },
+  {
+    id: "last",
+    time: "2pm"
+  }
+];
+
+
 export default function Application(props) {
 
-  const [ day, setDay ] = useState("Monday");
-  const [ interviewer, setInterviewer ] = useState(0);
+  const [day, setDay] = useState("Monday");
+  // const [interviewer, setInterviewer] = useState(0);
+
+  const appointmentList = appointments.map(app => {
+    return <Appointment key={app.id} {...app} />
+  })
 
 
   return (
@@ -60,11 +89,7 @@ export default function Application(props) {
 
       </section>
       <section className="schedule">
-        <InterviewerList 
-          interviewers={interviewers}
-          value={interviewer}
-          onChange={setInterviewer}  
-        />
+        {appointmentList}
       </section>
     </main>
   );
