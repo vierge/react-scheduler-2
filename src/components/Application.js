@@ -1,27 +1,33 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import axios from "axios";
 
 import "components/Application.scss";
 import DayList from "components/DayList"
 import InterviewerList from "components/InterviewerList"
 import Appointment from "components/Appointment"
 
-const days = [
-  {
-    id: 1,
-    name: "Monday",
-    spots: 2,
-  },
-  {
-    id: 2,
-    name: "Tuesday",
-    spots: 5,
-  },
-  {
-    id: 3,
-    name: "Wednesday",
-    spots: 0,
-  },
-];
+
+// not going to remove this before i'm totally sure
+
+// const days = [
+//   {
+//     id: 1,
+//     name: "Monday",
+//     spots: 2,
+//   },
+//   {
+//     id: 2,
+//     name: "Tuesday",
+//     spots: 5,
+//   },
+//   {
+//     id: 3,
+//     name: "Wednesday",
+//     spots: 0,
+//   },
+// ];
+
+
 
 const interviewers = [
   { id: 1, name: "Sylvia Palmer", avatar: "https://i.imgur.com/LpaY82x.png" },
@@ -57,9 +63,24 @@ const appointments = [
 
 export default function Application(props) {
 
-  const [day, setDay] = useState("Monday");
-  // const [interviewer, setInterviewer] = useState(0);
 
+  // tracked states
+  const [day, setDay] = useState("Monday");
+  const [days, setDays] = useState([]);
+
+  // axios API request effect
+  useEffect(() => {
+    axios.get(`/api/days`) // double check where call is made to
+      .then(response => {
+        console.log(response.data);
+        setDays(prev => response.data);
+      })
+      .catch(err => {
+        console.log(err);
+      })
+  }, []);
+
+  // appointmentList mapper for rendering
   const appointmentList = appointments.map(app => {
     return <Appointment key={app.id} {...app} />
   })
@@ -78,7 +99,7 @@ export default function Application(props) {
           <DayList
             days={days}
             day={day}
-            setDay={setDay}
+            setDay={event => { setDay(event) }}
           />
         </nav>
         <img
