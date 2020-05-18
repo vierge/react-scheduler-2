@@ -104,8 +104,13 @@ export default function Application(props) {
 
   // appointmentList mapper for rendering
   const appointmentList = getAppointmentsForDay(state, state.day).map(app => {
-    const interview = getInterview(state, app.interview)
-    return <Appointment key={app.id} interview={interview} {...app} />
+    const thisInterview = getInterview(state, app.interview)
+    console.log(`getInterview return contents:`)
+    console.log(thisInterview)
+    return <Appointment
+      key={app.id}
+      interview={thisInterview}
+    />
   })
 
 

@@ -14,9 +14,11 @@ import Empty from "./Empty"
 export default function Appointment(props) {
 
   const { interview } = props;
+  console.log(`interview passed to appointment:`)
+  console.log(interview);
 
   return (
-    <article className="appointment" key={interview}>
+    <article className="appointment">
       <header><Header /></header>
       {interview ?
         <Show student={interview.student} interviewer={interview.interviewer.name} /> :
