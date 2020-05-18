@@ -5,6 +5,7 @@ import "components/Application.scss";
 import DayList from "components/DayList"
 import InterviewerList from "components/InterviewerList"
 import Appointment from "components/Appointment"
+import { getAppointmentsForDay } from "helpers/selectors"
 
 
 // not going to remove this before i'm totally sure
@@ -37,28 +38,32 @@ const interviewers = [
   { id: 5, name: "Sven Jones", avatar: "https://i.imgur.com/twYrpay.jpg" }
 ];
 
-const appointments = [
-  {
-    id: 1,
-    time: "12pm",
-  },
-  {
-    id: 2,
-    time: "1pm",
-    interview: {
-      student: "Lydia Miller-Jones",
-      interviewer: {
-        id: 1,
-        name: "Sylvia Palmer",
-        avatar: "https://i.imgur.com/LpaY82x.png",
-      }
-    }
-  },
-  {
-    id: "last",
-    time: "2pm"
-  }
-];
+
+
+
+// leftover hardcoded data, used as reference
+// [
+//   {
+//     id: 1,
+//     time: "12pm",
+//   },
+//   {
+//     id: 2,
+//     time: "1pm",
+//     interview: {
+//       student: "Lydia Miller-Jones",
+//       interviewer: {
+//         id: 1,
+//         name: "Sylvia Palmer",
+//         avatar: "https://i.imgur.com/LpaY82x.png",
+//       }
+//     }
+//   },
+//   {
+//     id: "last",
+//     time: "2pm"
+//   }
+// ];
 
 
 export default function Application(props) {
@@ -71,25 +76,34 @@ export default function Application(props) {
   const [state, setState] = useState({
     day: "Monday",
     days: [],
-    appointments: {}
+    appointments: {},
+    interviewers: []
   })
   const setDay = day => setState(prev => ({ ...prev, day }))
-  const setDays = days => setState(prev => ({ ...prev, days }))
+  // const setDays = days => setState(prev => ({ ...prev, days }))
 
   // axios API request effect
   useEffect(() => {
-    axios.get(`/api/days`) // double check where call is made to
-      .then(response => {
-        console.log(response.data);
-        setDays(response.data);
+    Promise.all([
+      axios.get('/api/days'),
+      axios.get('/api/appointments'),
+      axios.get('/api/interviewers')
+    ]) // double check where call is made to
+      .then(all => {
+        const [days, appointments] = all;
+        console.log(days.data)
+        console.log(appointments.data)
+        console.log(interviewers.data)
+        setState(prev => ({ ...prev, days: days.data, appointments: appointments.data, interviewers: interviewers.data }));
       })
+      .then(res => console.log(state))
       .catch(err => {
         console.log(err);
       })
   }, []);
 
   // appointmentList mapper for rendering
-  const appointmentList = appointments.map(app => {
+  const appointmentList = getAppointmentsForDay(state, state.day).map(app => {
     return <Appointment key={app.id} {...app} />
   })
 
