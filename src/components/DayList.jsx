@@ -1,26 +1,26 @@
 import React from 'react'
 import DayListItem from './DayListItem';
 
-export default function DayList (props) {
+export default function DayList(props) {
 
-// avoid object destructuring here to avoid variable name ambiguity re: 'day'
-// takes as props: an array of days, the current day, and a setDay function
+  // avoid object destructuring here to avoid variable name ambiguity re: 'day'
+  // takes as props: an array of days, the current day, and a setDay function
 
-const dayList = props.days.map((day) => {
-  const { id, name, spots } = day;
+  const dayList = props.days.map((day) => {
+    const { id, name, spots } = day;
+    return (
+      <DayListItem
+        id={id}
+        name={name}
+        spots={spots}
+        selected={name === props.day}
+        setDay={props.setDay}
+      />
+    )
+  })
+
   return (
-    <DayListItem 
-      id={id}
-      name={name}
-      spots={spots}
-      selected={name === props.day} 
-      setDay={props.setDay}
-    />
+    <ul className="day-list">{dayList}</ul>
   )
-})
-
-return(
-<ul className="day-list">{dayList}</ul>
-)
 
 }
