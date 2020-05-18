@@ -13,10 +13,10 @@ import Empty from "./Empty"
 
 export default function Appointment(props) {
 
-  const { time, interview, key, id } = props;
+  const { interview } = props;
 
   return (
-    <article className="appointment">
+    <article className="appointment" key={interview}>
       <header><Header /></header>
       {interview ?
         <Show student={interview.student} interviewer={interview.interviewer.name} /> :

@@ -10,6 +10,7 @@ export default function DayList(props) {
     const { id, name, spots } = day;
     return (
       <DayListItem
+        key={id}
         id={id}
         name={name}
         spots={spots}

@@ -5,7 +5,7 @@ import "components/Application.scss";
 import DayList from "components/DayList"
 import InterviewerList from "components/InterviewerList"
 import Appointment from "components/Appointment"
-import { getAppointmentsForDay } from "helpers/selectors"
+import { getAppointmentsForDay, getInterview } from "helpers/selectors"
 
 
 // not going to remove this before i'm totally sure
@@ -30,13 +30,13 @@ import { getAppointmentsForDay } from "helpers/selectors"
 
 
 
-const interviewers = [
-  { id: 1, name: "Sylvia Palmer", avatar: "https://i.imgur.com/LpaY82x.png" },
-  { id: 2, name: "Tori Malcolm", avatar: "https://i.imgur.com/Nmx0Qxo.png" },
-  { id: 3, name: "Mildred Nazir", avatar: "https://i.imgur.com/T2WwVfS.png" },
-  { id: 4, name: "Cohana Roy", avatar: "https://i.imgur.com/FK8V841.jpg" },
-  { id: 5, name: "Sven Jones", avatar: "https://i.imgur.com/twYrpay.jpg" }
-];
+// const interviewers = [
+//   { id: 1, name: "Sylvia Palmer", avatar: "https://i.imgur.com/LpaY82x.png" },
+//   { id: 2, name: "Tori Malcolm", avatar: "https://i.imgur.com/Nmx0Qxo.png" },
+//   { id: 3, name: "Mildred Nazir", avatar: "https://i.imgur.com/T2WwVfS.png" },
+//   { id: 4, name: "Cohana Roy", avatar: "https://i.imgur.com/FK8V841.jpg" },
+//   { id: 5, name: "Sven Jones", avatar: "https://i.imgur.com/twYrpay.jpg" }
+// ];
 
 
 
@@ -90,7 +90,7 @@ export default function Application(props) {
       axios.get('/api/interviewers')
     ]) // double check where call is made to
       .then(all => {
-        const [days, appointments] = all;
+        const [days, appointments, interviewers] = all;
         console.log(days.data)
         console.log(appointments.data)
         console.log(interviewers.data)
@@ -104,7 +104,8 @@ export default function Application(props) {
 
   // appointmentList mapper for rendering
   const appointmentList = getAppointmentsForDay(state, state.day).map(app => {
-    return <Appointment key={app.id} {...app} />
+    const interview = getInterview(state, app.interview)
+    return <Appointment key={app.id} interview={interview} {...app} />
   })
 
 
@@ -121,6 +122,7 @@ export default function Application(props) {
           <DayList
             days={state.days}
             day={state.day}
+            interviews={state.interviews}
             setDay={setDay}
           />
         </nav>
