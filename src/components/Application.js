@@ -5,7 +5,7 @@ import "components/Application.scss";
 import DayList from "components/DayList"
 import InterviewerList from "components/InterviewerList"
 import Appointment from "components/Appointment"
-import { getAppointmentsForDay, getInterview } from "helpers/selectors"
+import { getAppointmentsForDay, getInterview, getInterviewersForDay } from "helpers/selectors"
 
 
 // not going to remove this before i'm totally sure
@@ -103,11 +103,13 @@ export default function Application(props) {
   }, []);
 
   // appointmentList mapper for rendering
+  const interviewersList = getInterviewersForDay(state, state.day)
   const appointmentList = getAppointmentsForDay(state, state.day).map(app => {
     const thisInterview = getInterview(state, app.interview)
     console.log(thisInterview)
-    return <Appointment key={app.id} {...app} interview={thisInterview} />
+    return <Appointment key={app.id} {...app} interview={thisInterview} interviewers={interviewersList} />
   })
+
 
 
   return (
