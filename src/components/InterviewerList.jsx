@@ -12,7 +12,7 @@ export default function InterviewerList(props) {
     const { id, name, avatar } = entity;
     return (
       <InterviewerListItem
-        id={id}
+        key={id}
         name={name}
         avatar={avatar}
         selected={value === id}
