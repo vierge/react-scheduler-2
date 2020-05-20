@@ -82,6 +82,7 @@ export default function Application(props) {
   const setDay = day => setState(prev => ({ ...prev, day }))
   // const setDays = days => setState(prev => ({ ...prev, days }))
 
+
   // axios API request effect
   useEffect(() => {
     Promise.all([
@@ -102,12 +103,20 @@ export default function Application(props) {
       })
   }, []);
 
+  // fuction for interview booking
+  function bookInterview(id, interview) {
+    console.log(id, interview);
+    const appointment = { ...state.appointments[id], interview: { ...interview } }
+    const appointments = { ...state.appointments, [id]: appointment }
+    setState({ ...state, appointments })
+
+  }
   // appointmentList mapper for rendering
   const interviewersList = getInterviewersForDay(state, state.day)
   const appointmentList = getAppointmentsForDay(state, state.day).map(app => {
     const thisInterview = getInterview(state, app.interview)
     console.log(thisInterview)
-    return <Appointment key={app.id} {...app} interview={thisInterview} interviewers={interviewersList} />
+    return <Appointment key={app.id} {...app} interview={thisInterview} interviewers={interviewersList} bookInterview={bookInterview} />
   })
 
 

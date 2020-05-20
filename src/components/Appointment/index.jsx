@@ -14,21 +14,28 @@ import Form from './Form'
 
 export default function Appointment(props) {
 
+  const { interview, interviewers, bookInterview } = props;
 
-
+  // states for visual mode hook
   const EMPTY = "EMPTY";
   const SHOW = "SHOW";
   const CREATE = "CREATE";
-
-
-  const { interview, interviewers } = props;
-
-
-
-  console.log(interview);
+  // custom visual mode hook
   const { mode, transition, back } = useVisualMode(
     interview ? SHOW : EMPTY
   )
+
+
+  function save(name, interviewer) {
+
+    const interview = {
+      student: name,
+      interviewer
+    }
+    bookInterview(1, interview);
+    transition(SHOW);
+  }
+
 
 
   return (
@@ -36,8 +43,7 @@ export default function Appointment(props) {
       <header><Header /></header>
       {mode === EMPTY && <Empty onAdd={() => transition(CREATE)} />}
       {mode === SHOW && <Show student={interview.student} interviewer={interview.interviewer.name} />}
-      {mode === CREATE && <Form interviewers={interviewers} onCancel={() => back()} />}
-
+      {mode === CREATE && <Form interviewers={interviewers} onCancel={() => back()} onSave={save} />}
     </article>
   )
 }
