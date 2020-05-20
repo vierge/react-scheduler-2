@@ -1,5 +1,5 @@
 // react imports
-import React, { useState } from 'react'
+import React from 'react'
 
 // styles imports
 import "./styles.scss"
@@ -14,7 +14,7 @@ import Form from './Form'
 
 export default function Appointment(props) {
 
-  const { interview, interviewers, bookInterview } = props;
+  const { id, interview, interviewers, bookInterview } = props;
 
   // states for visual mode hook
   const EMPTY = "EMPTY";
@@ -28,12 +28,11 @@ export default function Appointment(props) {
 
   function save(name, interviewer) {
 
-    const interview = {
+    const newInterview = {
       student: name,
-      interviewer
+      interviewer: interviewer
     }
-    bookInterview(1, interview);
-    transition(SHOW);
+    bookInterview(id, newInterview).then(res => transition(SHOW))
   }
 
 
