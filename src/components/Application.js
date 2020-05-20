@@ -105,7 +105,6 @@ export default function Application(props) {
 
   // fuction for interview booking
   function bookInterview(id, interview) {
-    console.log(id, interview);
     const appointment = { ...state.appointments[id], interview: { ...interview } }
     const appointments = { ...state.appointments, [id]: appointment }
     return axios.put(`api/appointments/${id}`, appointment)
@@ -116,13 +115,27 @@ export default function Application(props) {
       .catch(err => {
         console.log(err);
       })
-
   }
+
+  // function for canceling interviews                                  // GUIDE TO WRITING:
+  function cancelInterview(id) {                                        // pass in the appointment ID
+    const appointment = { ...state.appointments[id], interview: null }  // create a null interview state with this appointment ID
+    const appointments = { ...state.appointments, [id]: appointment }   // create a new appointments state with our null interview (WE NEED TO DO THIS IT JUST MAKES IT MORE LEGIBLE TRUST ME)
+    return axios.delete(`api/appointments/${id}`)                       // return promise: axios delete
+      .then(res => {
+        setState({ ...state, appointments })                            // set the state on completion
+        return Promise.resolve(res);                                    // resolve the promise
+      })
+      .catch(err => {
+        console.log(err)
+      })
+  }
+
   // appointmentList mapper for rendering
   const interviewersList = getInterviewersForDay(state, state.day)
   const appointmentList = getAppointmentsForDay(state, state.day).map(app => {
     const thisInterview = getInterview(state, app.interview)
-    return <Appointment key={app.id} {...app} interview={thisInterview} interviewers={interviewersList} bookInterview={bookInterview} />
+    return <Appointment key={app.id} {...app} interview={thisInterview} interviewers={interviewersList} bookInterview={bookInterview} cancelInterview={cancelInterview} />
   })
 
 
