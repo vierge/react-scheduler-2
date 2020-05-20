@@ -113,7 +113,7 @@ export default function Application(props) {
         return Promise.resolve(res);
       })
       .catch(err => {
-        console.log(err);
+        return Promise.reject(err);
       })
   }
 
@@ -127,7 +127,7 @@ export default function Application(props) {
         return Promise.resolve(res);                                    // resolve the promise
       })
       .catch(err => {
-        console.log(err)
+        return Promise.reject(err);
       })
   }
 

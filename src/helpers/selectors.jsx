@@ -36,7 +36,7 @@ export function getAppointmentsForDay(state, day) {
 
   state.days.forEach(listedDay => {
     if (listedDay.name === day) {
-      schedule = listedDay.appointments.map(apptId => state.appointments[apptId]);
+      schedule = listedDay.appointments.map(apptId => state.appointments[`${apptId}`]);
     }
   })
   return schedule;

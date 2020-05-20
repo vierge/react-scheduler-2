@@ -6,7 +6,7 @@ export default function useVisualMode(init) {
   const [history, setHistory] = useState([init]);
 
   function transition(input, replace) {
-    replace ? history[history.length - 1] = input : setHistory([...history, input])
+    replace ? history[history.length - 1] = input : setHistory(prev => ([...prev, input]))
     setMode(input);
 
   }
