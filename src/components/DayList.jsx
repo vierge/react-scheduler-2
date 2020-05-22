@@ -1,8 +1,7 @@
-import React from 'react'
-import DayListItem from './DayListItem';
+import React from "react";
+import DayListItem from "./DayListItem";
 
 export default function DayList(props) {
-
   // avoid object destructuring here to avoid variable name ambiguity re: 'day'
   // takes as props: an array of days, the current day, and a setDay function
 
@@ -17,11 +16,8 @@ export default function DayList(props) {
         selected={name === props.day}
         setDay={props.setDay}
       />
-    )
-  })
+    );
+  });
 
-  return (
-    <ul className="day-list">{dayList}</ul>
-  )
-
+  return <ul className="day-list">{dayList}</ul>;
 }
