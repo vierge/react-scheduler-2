@@ -1,12 +1,14 @@
 import React from "react";
 
-
 import "components/Application.scss";
-import DayList from "components/DayList"
-import Appointment from "components/Appointment"
-import { getAppointmentsForDay, getInterview, getInterviewersForDay } from "helpers/selectors"
-import useApplicationData from "hooks/useApplicationData"
-
+import DayList from "components/DayList";
+import Appointment from "components/Appointment";
+import {
+  getAppointmentsForDay,
+  getInterview,
+  getInterviewersForDay,
+} from "helpers/selectors";
+import useApplicationData from "hooks/useApplicationData";
 
 // not going to remove this before i'm totally sure
 
@@ -28,8 +30,6 @@ import useApplicationData from "hooks/useApplicationData"
 //   },
 // ];
 
-
-
 // const interviewers = [
 //   { id: 1, name: "Sylvia Palmer", avatar: "https://i.imgur.com/LpaY82x.png" },
 //   { id: 2, name: "Tori Malcolm", avatar: "https://i.imgur.com/Nmx0Qxo.png" },
@@ -37,9 +37,6 @@ import useApplicationData from "hooks/useApplicationData"
 //   { id: 4, name: "Cohana Roy", avatar: "https://i.imgur.com/FK8V841.jpg" },
 //   { id: 5, name: "Sven Jones", avatar: "https://i.imgur.com/twYrpay.jpg" }
 // ];
-
-
-
 
 // leftover hardcoded data, used as reference
 // [
@@ -65,10 +62,7 @@ import useApplicationData from "hooks/useApplicationData"
 //   }
 // ];
 
-
 export default function Application(props) {
-
-
   // tracked states
   // const [day, setDay] = useState("Monday");
   // const [days, setDays] = useState([]);
@@ -77,18 +71,23 @@ export default function Application(props) {
     state,
     setDay,
     bookInterview,
-    cancelInterview
+    cancelInterview,
   } = useApplicationData();
 
-
-
   // appointmentList mapper for rendering
-  const interviewersList = getInterviewersForDay(state, state.day)
-  const appointmentList = getAppointmentsForDay(state, state.day).map(app => {
-    return <Appointment key={app.id} {...app} interview={getInterview(state, app.interview)} interviewers={interviewersList} bookInterview={bookInterview} cancelInterview={cancelInterview} />
-  })
-
-
+  const interviewersList = getInterviewersForDay(state, state.day);
+  const appointmentList = getAppointmentsForDay(state, state.day).map((app) => {
+    return (
+      <Appointment
+        key={app.id}
+        {...app}
+        interview={getInterview(state, app.interview)}
+        interviewers={interviewersList}
+        bookInterview={bookInterview}
+        cancelInterview={cancelInterview}
+      />
+    );
+  });
 
   return (
     <main className="layout">
@@ -112,11 +111,8 @@ export default function Application(props) {
           src="images/lhl.png"
           alt="Lighthouse Labs"
         />
-
       </section>
-      <section className="schedule">
-        {appointmentList}
-      </section>
+      <section className="schedule">{appointmentList}</section>
     </main>
   );
 }

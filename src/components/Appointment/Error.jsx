@@ -1,7 +1,6 @@
-import React from 'react'
+import React from "react";
 
 export default function Error(props) {
-
   const { message, onClose } = props;
 
   return (
@@ -17,5 +16,5 @@ export default function Error(props) {
         onClick={onClose}
       />
     </main>
-  )
+  );
 }
