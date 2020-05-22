@@ -51,15 +51,10 @@ export default function Appointment(props) {
   }
 
   return (
-<<<<<<< HEAD
-    <article className="appointment">
-      <header><Header /></header>
-=======
     <article className="appointment" key={interview}>
       <header>
         <Header />
       </header>
->>>>>>> feature/useApplicationData
       {mode === EMPTY && <Empty onAdd={() => transition(CREATE)} />}
       {mode === SHOW && (
         <Show
