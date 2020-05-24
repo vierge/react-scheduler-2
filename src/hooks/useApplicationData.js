@@ -34,7 +34,7 @@ export default function useApplicationData() {
       .catch((err) => {
         console.log(err);
       });
-  });
+  }, []);
 
   // fuction for interview booking
   function bookInterview(id, interview) {
