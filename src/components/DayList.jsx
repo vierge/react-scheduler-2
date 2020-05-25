@@ -15,6 +15,7 @@ export default function DayList(props) {
         spots={spots}
         selected={name === props.day}
         setDay={props.setDay}
+        data-testid={name}
       />
     );
   });

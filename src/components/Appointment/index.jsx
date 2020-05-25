@@ -38,7 +38,7 @@ export default function Appointment(props) {
       interviewer: interviewer,
     };
     transition(SAVING);
-    bookInterview(id, newInterview)
+    bookInterview(id, newInterview, mode === EDIT ? true : false)
       .then((res) => transition(SHOW))
       .catch((err) => {
         transition(ERROR_SAVE, true);

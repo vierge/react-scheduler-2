@@ -33,9 +33,9 @@ export default function useApplicationData() {
   }, []);
 
   // fuction for interview booking
-  function bookInterview(id, interview) {
+  function bookInterview(id, interview, edit) {
     const newDays = state.days.map((day) => {
-      if (day.name === state.day) day.spots--;
+      if (day.name === state.day && !edit) day.spots--;
       return day;
     });
     const appointment = {
