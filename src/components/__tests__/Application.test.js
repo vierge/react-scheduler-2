@@ -11,6 +11,7 @@ import {
   getByAltText,
   getByPlaceholderText,
   getByDisplayValue,
+  queryByText,
 } from "@testing-library/react";
 
 import Application from "components/Application";
@@ -32,7 +33,6 @@ describe("Application", () => {
     const { container } = render(<Application />);
     await waitForElement(() => getByText(container, "Archie Cohen"));
 
-    const appointments = getAllByTestId(container, "appointment");
     const appointment = getAllByTestId(container, "appointment")[0];
 
     fireEvent.click(getByAltText(appointment, "Add"));
@@ -51,5 +51,29 @@ describe("Application", () => {
 
     expect(getByText(container, "Lydia Miller-Jones")).toBeInTheDocument();
     expect(getByText(container, "no spots remaining")).toBeInTheDocument();
+  });
+
+  it("loads data, cancels an interview and increases the remaining spots by 1", async () => {
+    const { container, debug } = render(<Application />);
+    await waitForElement(() => getByText(container, "Archie Cohen"));
+
+    const appointment = getAllByTestId(container, "appointment")[1];
+
+    fireEvent.click(getByAltText(appointment, "Delete"));
+    expect(
+      getByText(
+        appointment,
+        "Are you sure you want to delete this appointment?"
+      )
+    ).toBeInTheDocument();
+
+    fireEvent.click(getByText(appointment, "Confirm"));
+
+    expect(getByText(appointment, "Deleting...")).toBeInTheDocument();
+
+    await waitForElement(() => getByAltText(container, "Add"));
+
+    expect(queryByText(container, "no spots remaining")).toBeNull();
+    expect(queryByText(container, "Archie Cohen")).toBeNull();
   });
 });

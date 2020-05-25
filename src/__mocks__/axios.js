@@ -65,6 +65,13 @@ export default {
     });
   }),
 
+  delete: jest.fn((url) => {
+    return Promise.resolve({
+      status: 200,
+      statusText: "Deleted",
+    });
+  }),
+
   get: jest.fn((url) => {
     if (url === "/api/days")
       return Promise.resolve({

@@ -14,7 +14,6 @@ import useVisualMode from "hooks/useVisualMode";
 import Form from "./Form";
 import Confirm from "./Confirm";
 import Error from "./Error";
-import changeSpots from "helpers/selectors";
 
 export default function Appointment(props) {
   const { id, interview, interviewers, bookInterview, cancelInterview } = props;

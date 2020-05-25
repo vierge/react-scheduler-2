@@ -38,7 +38,6 @@ export default function useApplicationData() {
       if (day.name === state.day) day.spots--;
       return day;
     });
-    const days = [...state.days, newDays];
     const appointment = {
       ...state.appointments[id],
       interview: { ...interview },
@@ -48,7 +47,7 @@ export default function useApplicationData() {
     return axios
       .put(`api/appointments/${id}`, appointment)
       .then((res) => {
-        setState({ ...state, appointments, days });
+        setState({ ...state, appointments, days: newDays });
         return Promise.resolve(res);
       })
       .catch((err) => {
@@ -66,11 +65,10 @@ export default function useApplicationData() {
     // pass in the appointment ID
     const appointment = { ...state.appointments[id], interview: null }; // create a null interview state with this appointment ID
     const appointments = { ...state.appointments, [id]: appointment }; // create a new appointments state with our null interview (WE NEED TO DO THIS IT JUST MAKES IT MORE LEGIBLE TRUST ME
-    const days = [...state.days, newDays]; // create a new days state
     return axios
       .delete(`api/appointments/${id}`) // return promise: axios delete
       .then((res) => {
-        setState({ ...state, appointments, days }); // set the state on completion
+        setState({ ...state, appointments, days: newDays }); // set the state on completion
         return Promise.resolve(res); // resolve the promise
       })
       .catch((err) => {
