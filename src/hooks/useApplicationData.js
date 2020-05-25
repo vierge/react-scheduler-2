@@ -20,9 +20,6 @@ export default function useApplicationData() {
     ]) // double check where call is made to
       .then((all) => {
         const [days, appointments, interviewers] = all;
-        console.log(days.data);
-        console.log(appointments.data);
-        console.log(interviewers.data);
         setState((prev) => ({
           ...prev,
           days: days.data,
@@ -30,7 +27,6 @@ export default function useApplicationData() {
           interviewers: interviewers.data,
         }));
       })
-      .then((res) => console.log(state))
       .catch((err) => {
         console.log(err);
       });
@@ -38,15 +34,21 @@ export default function useApplicationData() {
 
   // fuction for interview booking
   function bookInterview(id, interview) {
+    const newDays = state.days.map((day) => {
+      if (day.name === state.day) day.spots--;
+      return day;
+    });
+    const days = [...state.days, newDays];
     const appointment = {
       ...state.appointments[id],
       interview: { ...interview },
     };
+
     const appointments = { ...state.appointments, [id]: appointment };
     return axios
       .put(`api/appointments/${id}`, appointment)
       .then((res) => {
-        setState({ ...state, appointments });
+        setState({ ...state, appointments, days });
         return Promise.resolve(res);
       })
       .catch((err) => {
@@ -56,13 +58,19 @@ export default function useApplicationData() {
 
   // function for canceling interviews                                  // GUIDE TO WRITING:
   function cancelInterview(id) {
+    // create a newDays array
+    const newDays = state.days.map((day) => {
+      if (day.name === state.day) day.spots++;
+      return day;
+    });
     // pass in the appointment ID
     const appointment = { ...state.appointments[id], interview: null }; // create a null interview state with this appointment ID
-    const appointments = { ...state.appointments, [id]: appointment }; // create a new appointments state with our null interview (WE NEED TO DO THIS IT JUST MAKES IT MORE LEGIBLE TRUST ME)
+    const appointments = { ...state.appointments, [id]: appointment }; // create a new appointments state with our null interview (WE NEED TO DO THIS IT JUST MAKES IT MORE LEGIBLE TRUST ME
+    const days = [...state.days, newDays]; // create a new days state
     return axios
       .delete(`api/appointments/${id}`) // return promise: axios delete
       .then((res) => {
-        setState({ ...state, appointments }); // set the state on completion
+        setState({ ...state, appointments, days }); // set the state on completion
         return Promise.resolve(res); // resolve the promise
       })
       .catch((err) => {

@@ -14,6 +14,7 @@ import useVisualMode from "hooks/useVisualMode";
 import Form from "./Form";
 import Confirm from "./Confirm";
 import Error from "./Error";
+import changeSpots from "helpers/selectors";
 
 export default function Appointment(props) {
   const { id, interview, interviewers, bookInterview, cancelInterview } = props;
@@ -40,7 +41,10 @@ export default function Appointment(props) {
     transition(SAVING);
     bookInterview(id, newInterview)
       .then((res) => transition(SHOW))
-      .catch((err) => transition(ERROR_SAVE, true));
+      .catch((err) => {
+        transition(ERROR_SAVE, true);
+        console.log(err);
+      });
   }
 
   function destroy() {
@@ -51,7 +55,7 @@ export default function Appointment(props) {
   }
 
   return (
-    <article className="appointment" key={interview}>
+    <article className="appointment" data-testid="appointment" key={interview}>
       <header>
         <Header />
       </header>

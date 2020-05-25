@@ -43,7 +43,6 @@ export function getAppointmentsForDay(state, day) {
 
 export function getInterview(state, interview) {
   if (interview) {
-    console.log(state.interviewers[`${interview.interviewer}`])
     return {
       student: interview.student,
       interviewer: state.interviewers[`${interview.interviewer}`],
