@@ -16,7 +16,14 @@ import Confirm from "./Confirm";
 import Error from "./Error";
 
 export default function Appointment(props) {
-  const { id, interview, interviewers, bookInterview, cancelInterview } = props;
+  const {
+    id,
+    interview,
+    interviewers,
+    bookInterview,
+    cancelInterview,
+    time,
+  } = props;
 
   // states for visual mode hook
   const EMPTY = "EMPTY";
@@ -56,7 +63,7 @@ export default function Appointment(props) {
   return (
     <article className="appointment" data-testid="appointment" key={interview}>
       <header>
-        <Header />
+        <Header time={time} />
       </header>
       {mode === EMPTY && <Empty onAdd={() => transition(CREATE)} />}
       {mode === SHOW && (
